@@ -42,11 +42,37 @@ function GetAllDataOnce(){
 }
 
 function AddAllItemsToTable(AllEmployees){
-    var stdNo=0;
+    var totalAmount = 0;
+    var EmpArray = [];
+ 
     tbody.innerHTML="";
     AllEmployees.forEach(element => {
-        AddItemsToTable(element.EmpID, element.Name, element.Amount, element.Club, element.Ref);
+
+        if(element.Amount == null){
+            var tempAmount = 0;
+        }else{
+            var tempAmount = element.Amount;
+        }
+        totalAmount = Number(totalAmount) + Number(tempAmount);
+        
+        
+
+        if(element.Name == "TOTAL"){
+            AddItemsToTable(element.EmpID, element.Name, totalAmount, element.Club, element.Ref);
+            EmpArray.sort((a, b) => a.Amount - b.Amount);
+            document.getElementById('No1').innerHTML = "欠款冠軍🥇： " + EmpArray.pop().EmpID;
+            document.getElementById('No2').innerHTML = "欠款亞軍🥈： " + EmpArray.pop().EmpID;
+            document.getElementById('No3').innerHTML = "欠款季軍🥉： " + EmpArray.pop().EmpID;
+        }else{
+            var temp = {EmpID: element.EmpID, Amount: element.Amount};
+            EmpArray.push(temp);
+
+            AddItemsToTable(element.EmpID, element.Name, element.Amount, element.Club, element.Ref);
+        }
+        
+
     });
+    
     }
 
 function AddItemsToTable(EmpID,Name,Amount,Club ,Ref){

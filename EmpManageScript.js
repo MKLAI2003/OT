@@ -41,20 +41,26 @@
             var delBtn = document.getElementById("Delbtn");
 
             function InsertData(){
-                set(ref(db, "AllEmployees/"+ EmpIDbox.value),{
-                EmpID: EmpIDbox.value,
-                Name: Namebox.value,
-                Amount: Amountbox.value,
-                Club: Clubbox.value,
-                Ref: Refbox.value
-                })
-                .then(()=>{
-                    updateTime();
-                alert("data stored successfully");
-                })
-                .catch((error)=>{
-                alert("unsuccessful, error"+error);
-                });
+                console.log(EmpIDbox.value);
+                if(EmpIDbox.value == "" || EmpIDbox.value == null){
+                    alert("EmpID 不能空白");
+                }else{
+                    set(ref(db, "AllEmployees/"+ EmpIDbox.value),{
+                        EmpID: EmpIDbox.value,
+                        Name: Namebox.value,
+                        Amount: Amountbox.value,
+                        Club: Clubbox.value,
+                        Ref: Refbox.value
+                        })
+                        .then(()=>{
+                            updateTime();
+                        alert("data stored successfully");
+                        })
+                        .catch((error)=>{
+                        alert("unsuccessful, error"+error);
+                        });
+                }
+                
             }
 
             function SelectData(){
@@ -100,7 +106,7 @@
                         document.getElementById("SearchName").innerText = snapshot.val().Name;
                         document.getElementById("SearchAmount").innerText = snapshot.val().Amount;
                         document.getElementById("SearchClub").innerText = snapshot.val().Club;
-                        document.getElementById("SearchRef").innerText = snapshot.val().Ref;
+                        document.getElementById("SearchRef").value = snapshot.val().Ref;
                         
                     }
                     else{
@@ -130,19 +136,24 @@
                     if(snapshot.exists()){
                         
                         tempAmount = Number(snapshot.val().Amount);
-                        Refbox.value = snapshot.val().Ref;
+                        
                         tempAmount = tempAmount + Number(AddAmount) - Number(ReduceAmount);
+
+                        if(tempAmount == 0){
+                            tempAmount = "";
+                        }
 
                         set(ref(db, "AllEmployees/"+ snapshot.val().EmpID),{
                             EmpID: snapshot.val().EmpID,
                             Name: snapshot.val().Name,
                             Amount: tempAmount,
                             Club: snapshot.val().Club,
-                            Ref: snapshot.val().Ref
+                            Ref: document.getElementById("SearchRef").value
                             })
                             .then(()=>{
                                 updateTime();
                             alert("data stored successfully");
+                            SearchData();
                             })
                             .catch((error)=>{
                             alert("unsuccessful, error"+error);
@@ -160,15 +171,50 @@
                         alert("unsuccessful, error"+error);
                     });
 
-
-               
+                
               }
+
+
+            function saveRefdata(){
+                get(child(ref(db), "AllEmployees/"+ SearchEmpIDbox.value)).then((snapshot)=>{
+
+                    if(snapshot.exists()){
+
+                        set(ref(db, "AllEmployees/"+ snapshot.val().EmpID),{
+                            EmpID: snapshot.val().EmpID,
+                            Name: snapshot.val().Name,
+                            Amount: snapshot.val().Amount,
+                            Club: snapshot.val().Club,
+                            Ref: document.getElementById("SearchRef").value
+                            })
+                            .then(()=>{
+                                updateTime();
+                            alert("data stored successfully");
+                            SearchData();
+                            })
+                            .catch((error)=>{
+                            alert("unsuccessful, error"+error);
+                            });
+
+
+
+                    }
+                    else{
+                        alert("No data found");
+                    }
+                    
+                    })
+                    .catch((error)=>{
+                        alert("unsuccessful, error"+error);
+                    });
+            }
 
 
             insBtn.addEventListener('click', InsertData);
             selBtn.addEventListener('click', SelectData);
             searchBtn.addEventListener('click', SearchData);
             editBtn.addEventListener('click', editAmount);
+            saveBtn.addEventListener('click', saveRefdata);
 
 
 

@@ -18,24 +18,25 @@
         <a>姓名：</a><a id="SearchName"></a><br>
         <a>欠款：</a><a id="SearchAmount"></a><button id="editBtn" style="color: red;">edit</button><br>
         <a>幫會：</a><a id="SearchClub"></a><br>
-        <a>備註：</a><a id="SearchRef"></a><br>
+        <a>備註：</a><input id="SearchRef"><br>
+        <button id="saveBtn">Save</button>
     </div>    
 
     <div>
-        <h4>員工管理（增加/取消）</h4>
+        <h4>員工管理（增加/取消）（特別修改/手動輸入）</h4>
         <label>EmpID</label> <input id="EmpIDbox" type="text"> <br>
         <label>Name</label> <input id="Namebox" type="text"><br>
         <label>Amount</label> <input id="Amountbox" type="text"><br>
         <label>Club</label>
         <select id="Clubbox"><br>
+            <option value="N/A">N/A</option>
             <option value="26">26</option>
             <option value="96">96</option>
-            <option value="N/A">N/A</option>
         </select><br>
 
         <label>Ref</label><input id="Refbox" type="text"><br>
-        <button id="Insbtn">INSERT</button>
-        <button id="Selbtn">SELECT</button>
+        <button id="Insbtn">確定</button>
+        <button id="Selbtn">入EMPID search</button>
         <button id="Updbtn">UPDATE（未整）</button>
         <button id="Delbtn">DELETE（未整）</button>
     </div>
