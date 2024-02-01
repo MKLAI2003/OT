@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Employee Management</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script type="module" src="EmpManageScript.js"></script>
+
+</head>
+<body>
+        <h1>Management System</h1>
+
+    <div>
+        <h4>搜尋</h4>
+        <label>EmpID：</label> <input id="SearchEmpIDbox" type="text"><button id="searchBtn">Search</button><br>
+        <a>員工編號：</a><a id="SearchEmpID"></a><br>
+        <a>姓名：</a><a id="SearchName"></a><br>
+        <a>欠款：</a><a id="SearchAmount"></a><button id="editBtn" style="color: red;">edit</button><br>
+        <a>幫會：</a><a id="SearchClub"></a><br>
+        <a>備註：</a><a id="SearchRef"></a><br>
+    </div>    
+
+    <div>
+        <h4>員工管理（增加/取消）</h4>
+        <label>EmpID</label> <input id="EmpIDbox" type="text"> <br>
+        <label>Name</label> <input id="Namebox" type="text"><br>
+        <label>Amount</label> <input id="Amountbox" type="text"><br>
+        <label>Club</label>
+        <select id="Clubbox"><br>
+            <option value="26">26</option>
+            <option value="96">96</option>
+            <option value="N/A">N/A</option>
+        </select><br>
+
+        <label>Ref</label><input id="Refbox" type="text"><br>
+        <button id="Insbtn">INSERT</button>
+        <button id="Selbtn">SELECT</button>
+        <button id="Updbtn">UPDATE（未整）</button>
+        <button id="Delbtn">DELETE（未整）</button>
+    </div>
+
+
+        
+
+
+
+
+</body>
+    
+
+</html>
