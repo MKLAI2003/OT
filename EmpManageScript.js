@@ -79,10 +79,6 @@
                     });
             }
 
-
-            insBtn.addEventListener('click', InsertData);
-            selBtn.addEventListener('click', SelectData);
-
             function updateTime(){
                 const currentDate = new Date();
                 const timestamp = currentDate.getTime();
@@ -95,6 +91,85 @@
                     alert("unsuccessful update time, error"+error);
                     });
             }
+
+            function SearchData(){
+                get(child(ref(db), "AllEmployees/"+ SearchEmpIDbox.value)).then((snapshot)=>{
+
+                    if(snapshot.exists()){
+                        document.getElementById("SearchEmpID").innerText = snapshot.val().EmpID;
+                        document.getElementById("SearchName").innerText = snapshot.val().Name;
+                        document.getElementById("SearchAmount").innerText = snapshot.val().Amount;
+                        document.getElementById("SearchClub").innerText = snapshot.val().Club;
+                        document.getElementById("SearchRef").innerText = snapshot.val().Ref;
+                        
+                    }
+                    else{
+                        alert("No data found");
+                    }
+                    
+                    })
+                    .catch((error)=>{
+                        alert("unsuccessful, error"+error);
+                    });
+            }
+
+            function editAmount() {
+                var tempAmount = 0;
+                let AddAmount = prompt("增加罰款：");
+                let ReduceAmount = prompt("還款:");
+
+                if (AddAmount == null || AddAmount == "") {
+                  AddAmount = 0;
+                }
+                if (ReduceAmount == null || ReduceAmount == "") {
+                    ReduceAmount = 0;
+                }
+                
+                get(child(ref(db), "AllEmployees/"+ SearchEmpIDbox.value)).then((snapshot)=>{
+
+                    if(snapshot.exists()){
+                        
+                        tempAmount = Number(snapshot.val().Amount);
+                        Refbox.value = snapshot.val().Ref;
+                        tempAmount = tempAmount + Number(AddAmount) - Number(ReduceAmount);
+
+                        set(ref(db, "AllEmployees/"+ snapshot.val().EmpID),{
+                            EmpID: snapshot.val().EmpID,
+                            Name: snapshot.val().Name,
+                            Amount: tempAmount,
+                            Club: snapshot.val().Club,
+                            Ref: snapshot.val().Ref
+                            })
+                            .then(()=>{
+                                updateTime();
+                            alert("data stored successfully");
+                            })
+                            .catch((error)=>{
+                            alert("unsuccessful, error"+error);
+                            });
+
+
+
+                    }
+                    else{
+                        alert("No data found");
+                    }
+                    
+                    })
+                    .catch((error)=>{
+                        alert("unsuccessful, error"+error);
+                    });
+
+
+               
+              }
+
+
+            insBtn.addEventListener('click', InsertData);
+            selBtn.addEventListener('click', SelectData);
+            searchBtn.addEventListener('click', SearchData);
+            editBtn.addEventListener('click', editAmount);
+
 
 
 
